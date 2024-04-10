@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+<input style="color: blue" type="button" value="Logout" onclick="window.location.href = '/logout'"/>
+<br>
+<br>
+<input style="color: blue" type="button" value="User info" onclick="window.location.href = '/user'"/>
+<h2>Table Users</h2>
+
+<input type="button" value="Add User" onclick="window.location.href = 'admin/new'">
+<br>
+<br>
+<div>
+    <table border="2">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Age</th>
+            <th>On Delete</th>
+            <th>On Update</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.getId()}"></td>
+            <td th:utext="${user.getName()}"></td>
+            <td th:utext="${user.getSurname()}"></td>
+            <td th:utext="${user.getEmail()}"></td>
+            <td th:utext="${user.getAge()}"></td>
+            <td>
+                <form th:method="POST" th:action="@{/admin/delete?id={id}(id=${user.getId()})}">
+                    <input type="submit" value="Delete">
+                </form>
+
+            </td>
+            <td>
+                <form th:method="POST" th:action="@{/admin/edit?id={id}(id=${user.getId()})}">
+                    <input type="submit" value="Update">
+                </form>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
