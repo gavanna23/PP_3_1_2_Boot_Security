@@ -1,8 +1,9 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.dao.RoleDao;
+//import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
@@ -12,44 +13,45 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-    private final RoleDao roleDao;
+    private final RoleRepository roleRepository;
 
-    public RoleServiceImpl(RoleDao roleDao) {
-        this.roleDao = roleDao;
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public List<Role> getAllRoles() {
-        return roleDao.getAllRoles();
+        return roleRepository.findAll();
     }
 
     @Override
     public Role getById(Long id) {
-        return roleDao.getById(id);
+        return roleRepository.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
     public void deleteRole(Role role) {
-        roleDao.deleteRole(role);
+        roleRepository.delete(role);
     }
 
     @Override
     @Transactional
     public void updateRole(Role role) {
-        roleDao.updateRole(role);
+        roleRepository.save(role);
     }
 
     @Override
     @Transactional
     public void addNewRole(Role role) {
-        roleDao.addNewRole(role);
+        roleRepository.save(role);
     }
 
     @Override
     public Set<Role> getRolesByArrayIds(Long... idRoles) {
-       return Arrays.stream(idRoles)
-               .map( l -> roleDao.getById((Long) l))
-               .collect(Collectors.toSet());
+        return Arrays.stream(idRoles)
+                .map(id -> roleRepository.findById(id).orElse(null))
+                .collect(Collectors.toSet());
     }
+
 }

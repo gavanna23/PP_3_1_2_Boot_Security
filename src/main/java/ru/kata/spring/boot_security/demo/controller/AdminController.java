@@ -36,14 +36,14 @@ public class AdminController {
         return "new";
     }
 
-    @PostMapping("/saveOrUpdateUser")
-    public String saveUser(@Valid @ModelAttribute("user") User user
+    @PostMapping("/saveAddUser")
+    public String saveAddUser(@Valid @ModelAttribute("user") User user
             , @RequestParam("selectedRoles") Long[] selectRoles
             , BindingResult result) {
 
         if (!result.hasErrors()) {
             Set<Role> rolesByArrayIds = roleService.getRolesByArrayIds(selectRoles);
-            userService.addOrUpdateUser(user, rolesByArrayIds);
+            userService.addUser(user, rolesByArrayIds);
         }
         return "redirect:/admin";
     }
@@ -53,6 +53,18 @@ public class AdminController {
         model.addAttribute("user", userService.getById(id));
         model.addAttribute("listRoles", roleService.getAllRoles());
         return "edit";
+    }
+
+    @PostMapping("/saveUpUser")
+    public String saveUpUser(@Valid @ModelAttribute("user") User user
+            , @RequestParam("selectedRoles") Long[] selectRoles
+            , BindingResult result) {
+
+        if (!result.hasErrors()) {
+            Set<Role> rolesByArrayIds = roleService.getRolesByArrayIds(selectRoles);
+            userService.updateUser(user, rolesByArrayIds);
+        }
+        return "redirect:/admin";
     }
 
     @PostMapping("/delete")

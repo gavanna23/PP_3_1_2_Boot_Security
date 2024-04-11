@@ -9,7 +9,7 @@
 <input style="color: blue" type="button" value="Logout" onclick="window.location.href = '/logout'"/>
 <h2>User Correction</h2>
 
-<form th:action="@{/admin/saveOrUpdateUser}" th:object="${user}" th:method="POST">
+<form th:action="@{/admin/saveUpUser}" th:object="${user}" th:method="POST">
     <input type="hidden" th:field="*{id}">
     Name:
     <input type="text" th:field="*{name}"/>

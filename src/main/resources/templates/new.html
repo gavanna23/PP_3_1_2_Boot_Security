@@ -10,7 +10,7 @@
 <h2>User Creation</h2>
 
 
-<form th:action="@{/admin/saveOrUpdateUser}" th:object="${user}" th:method="POST">
+<form th:action="@{/admin/saveAddUser}" th:object="${user}" th:method="POST">
     Name:
     <input type="text" th:field="*{name}"/>
     <form th:errors="*{name}" type="text"></form>
