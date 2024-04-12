@@ -4,42 +4,39 @@ package ru.kata.spring.boot_security.demo.model;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.util.*;
 
 @Entity
 @Table(name = "users",
         uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-    @Column(name = "name")
 
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
-    @Column(name = "surname")
 
+    @Column(name = "surname")
     private String surname;
+
     @Email
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password")
-
     private String password;
 
     @Column(name = "age")
-
     private Byte age;
+
     @ManyToMany(fetch = FetchType.LAZY)
-//    @ManyToMany (fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.EXTRA)
     @JoinTable(
             name = "users_roles"
